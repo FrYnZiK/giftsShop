@@ -1,12 +1,11 @@
 package testgroup.giftography.repository;
 
-import org.springframework.stereotype.Repository;
 import testgroup.giftography.model.Gift;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Repository
+
 public class GiftDaoImpl implements GiftDao {
 
     private static final AtomicInteger AUTO_ID = new AtomicInteger(0);
