@@ -10,6 +10,29 @@ public class Runner {
         Connection connection = new SQLDatabaseConnection().getConnection();
         ClientRepository clientRepository = new ClientRepository(connection);
 
+        try {
+            Client client = getStaticClient();
+            clientRepository.updateClient(client);
+            Client client1 = clientRepository.getClient(1);
+            System.out.println(client1);
+
+            Client client2 = new Client(
+                    "Gleb",
+                    "Hleb",
+                    "Minsk",
+                    "901",
+                    "GlebHleb@rb.by");
+
+            //clientRepository.addClient(client2);
+            clientRepository.deleteClient(4);
+
+        } catch (SQLException throwables) {
+            System.err.println("ALERT!!!");
+            throwables.printStackTrace();
+        }
+    }
+
+    private static Client getStaticClient() {
         Client client = new Client(
                 4,
                 "Vitaliy",
@@ -17,14 +40,7 @@ public class Runner {
                 "addr",
                 "103",
                 "any@mail.com");
-        try {
-            boolean b = clientRepository.updateClient(client);
-            Client client1 = clientRepository.getClient(1);
-            System.out.println(client1);
-        } catch (SQLException throwables) {
-            System.err.println("ALERT!!!");
-            throwables.printStackTrace();
-        }
+        return client;
     }
 
 }

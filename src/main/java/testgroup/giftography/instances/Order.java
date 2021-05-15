@@ -1,5 +1,6 @@
 package testgroup.giftography.instances;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ public class Order {
     private OrderStatus orderStatus = OrderStatus.NEW;
     private Map<Product, Integer> productIntegerMap = new HashMap<>();
 
-    public Order(int id, int clientId, int productId) {
+    public Order(int id, int clientId, Date dateOfCreation, int productId) {
         this.id = id;
         this.clientId = clientId;
     }
@@ -24,11 +25,11 @@ public class Order {
         return clientId;
     }
 
-    public LocalDate getDateOfCreation() {
+    public Date getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public OrderStatus getOrderStatus() {
+    public int getOrderStatus() {
         return orderStatus;
     }
 

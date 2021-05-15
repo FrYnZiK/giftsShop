@@ -35,16 +35,16 @@ public class ClientRepository {
         String sql = "select * from client where firstName= ?, secondName = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(2, firstName);
+        preparedStatement.setString(3, secondName);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            System.out.println("Client First name: " + resultSet.getString("firstName"));
-            System.out.println("Client Second name: " + resultSet.getString("secondName"));
-            System.out.println("Client Address: " + resultSet.getString("address"));
-            System.out.println("Client Phone number: " + resultSet.getString("phoneNumber"));
-            System.out.println("Client Email: " + resultSet.getString("email"));
-            preparedStatement.execute();
-        }
-        return null;
+        resultSet.next();
+        return new Client(
+                firstName, secondName,
+                resultSet.getString("address"),
+                resultSet.getString("phoneNumber"),
+                resultSet.getString("email")
+        );
     }
 
     public boolean addClient(Client client) throws SQLException {
@@ -76,9 +76,15 @@ public class ClientRepository {
         return false;
     }
 
-    public boolean deleteClient(int id) {
+    public boolean deleteClient(int id) throws SQLException {
+
+        String sql = "delete from client where clientid=?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+
+        preparedStatement.executeUpdate();
+
         return false;
     }
-
-
 }
