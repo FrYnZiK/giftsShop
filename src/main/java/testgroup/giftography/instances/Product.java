@@ -1,15 +1,13 @@
 package testgroup.giftography.instances;
 
-import java.math.BigDecimal;
-
 public class Product {
     private final int id;
     private String name;
     private String description;
-    private BigDecimal price;
+    private int price;
     private ProductCategory productCategory;
 
-    public Product(int id, String name, String description, BigDecimal price, ProductCategory productCategory) {
+    public Product(int id, String name, String description, int price, ProductCategory productCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -37,11 +35,11 @@ public class Product {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
