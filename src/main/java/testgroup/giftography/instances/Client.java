@@ -1,7 +1,7 @@
 package testgroup.giftography.instances;
 
 public class Client {
-    private final int id;
+    private int id;
     private String firstName;
     private String secondName;
     private String address;
@@ -10,6 +10,14 @@ public class Client {
 
     public Client(int id, String firstName, String secondName, String address, int phoneNumber, String email) {
         this.id = id;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public Client(String firstName, String secondName, String address, int phoneNumber, String email) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.address = address;
