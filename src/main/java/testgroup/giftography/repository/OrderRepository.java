@@ -2,11 +2,10 @@ package testgroup.giftography.repository;
 
 import testgroup.giftography.instances.Client;
 import testgroup.giftography.instances.Order;
+import testgroup.giftography.instances.OrderStatus;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 
 public class OrderRepository {
 
@@ -17,7 +16,7 @@ public class OrderRepository {
     }
 
     public Order getOrder(int id) throws SQLException {
-        String sql = "select * from order where orderid=?";
+        String sql = "select * from myorder where orderid=?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -25,32 +24,33 @@ public class OrderRepository {
         resultSet.next();
         return new Order(
                 id,
-                resultSet.getInt("clientId"),
-                resultSet.getDate("dateOfCreation"),
-                resultSet.getInt("orderStatus")
+                resultSet.getInt("clientid"),
+                LocalDate.now(),
+                OrderStatus.valueOf(resultSet.getString("orderStatus"))
         );
     }
 
     public boolean addOrder(Order order) throws SQLException {
-        String sql = "insert into order set clientId=?, dateOfCreation=?, orderStatus=?";
+        String sql = "insert into myorder set client=?, dateOfCreation=?, status=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        int statusId = new StatusRepository(connection).getOrderStatusId(OrderStatus.NEW);
 
         preparedStatement.setInt(1, order.getClientId());
-        preparedStatement.setDate(2, order.getDateOfCreation());
-        preparedStatement.setInt(3, order.getOrderStatus());
+        preparedStatement.setDate(2, Date.valueOf(order.getDateOfCreation()));
+        preparedStatement.setInt(3, statusId);
 
         preparedStatement.executeUpdate();
 
-        return false;
+        return true;
     }
 
     public boolean updateOrder(Order order) throws SQLException {
-        String sql = "update order set clientId=?, dateOfCreation=?, orderStatus=?";
+        String sql = "update myorder set clientId=?, dateOfCreation=?, orderStatus=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         preparedStatement.setInt(1, order.getClientId());
-        preparedStatement.setDate(2, order.getDateOfCreation());
-        preparedStatement.setInt(3, order.getOrderStatus());
+        preparedStatement.setDate(2, Date.valueOf(order.getDateOfCreation()));
+//        preparedStatement.setInt(3, order.getOrderStatus());
 
         preparedStatement.executeUpdate();
 

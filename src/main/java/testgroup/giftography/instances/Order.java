@@ -6,30 +6,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Order {
-    private final int id;
+    private int id;
     private final int clientId;
-    private final LocalDate dateOfCreation = LocalDate.now();
-    private OrderStatus orderStatus = OrderStatus.NEW;
+    private LocalDate dateOfCreation = LocalDate.now();
+    private OrderStatus orderStatus;
     private Map<Product, Integer> productIntegerMap = new HashMap<>();
-
-    public Order(int id, int clientId, Date dateOfCreation, int productId) {
-        this.id = id;
-        this.clientId = clientId;
-    }
 
     public int getId() {
         return id;
+    }
+
+    public Order(int id, int clientId, LocalDate dateOfCreation, OrderStatus orderStatus) {
+        this.id = id;
+        this.clientId = clientId;
+        this.dateOfCreation = dateOfCreation;
+        this.orderStatus = orderStatus;
+    }
+
+    public Order(int clientId, OrderStatus orderStatus) {
+        this.clientId = clientId;
+        this.orderStatus = orderStatus;
     }
 
     public int getClientId() {
         return clientId;
     }
 
-    public Date getDateOfCreation() {
+    public LocalDate getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public int getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 

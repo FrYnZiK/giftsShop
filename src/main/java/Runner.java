@@ -1,9 +1,13 @@
 import testgroup.giftography.instances.Client;
+import testgroup.giftography.instances.Order;
+import testgroup.giftography.instances.OrderStatus;
 import testgroup.giftography.jdbc.SQLDatabaseConnection;
 import testgroup.giftography.repository.ClientRepository;
+import testgroup.giftography.repository.OrderRepository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class Runner {
     public static void main(String[] args) {
@@ -17,14 +21,16 @@ public class Runner {
             System.out.println(client1);
 
             Client client2 = new Client(
-                    "Gleb",
+                    "UUID.randomUUID().toString()",
                     "Hleb",
                     "Minsk",
-                    "901",
-                    "GlebHleb@rb.by");
+                    "90100",
+                    UUID.randomUUID().toString() + "@rb.by");
 
-            //clientRepository.addClient(client2);
-            clientRepository.deleteClient(4);
+            clientRepository.addClient(client2);
+//            clientRepository.deleteClient(4);
+            Order order = new Order(1, OrderStatus.NEW);
+            new OrderRepository(connection).addOrder(order);
 
         } catch (SQLException throwables) {
             System.err.println("ALERT!!!");
