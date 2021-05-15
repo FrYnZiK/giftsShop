@@ -47,13 +47,14 @@ public class OrderRepository {
     public boolean updateOrder(Order order) throws SQLException {
         String sql = "update myorder set clientId=?, dateOfCreation=?, orderStatus=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        int statusId = new StatusRepository(connection).getOrderStatusId(OrderStatus.NEW);
 
         preparedStatement.setInt(1, order.getClientId());
         preparedStatement.setDate(2, Date.valueOf(order.getDateOfCreation()));
-//        preparedStatement.setInt(3, order.getOrderStatus());
+        preparedStatement.setInt(3, statusId);
 
         preparedStatement.executeUpdate();
 
-        return false;
+        return true;
     }
 }

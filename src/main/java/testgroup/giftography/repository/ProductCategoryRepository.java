@@ -1,6 +1,7 @@
 package testgroup.giftography.repository;
 
 import testgroup.giftography.instances.Client;
+import testgroup.giftography.instances.OrderStatus;
 import testgroup.giftography.instances.ProductCategory;
 
 import java.sql.Connection;
@@ -24,72 +25,42 @@ public class ProductCategoryRepository {
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
-        return null;
-//            return new ProductCategory(
-//                    id,
-//                    resultSet.getString("firstName"),
-//                    resultSet.getString("secondName"),
-//                    resultSet.getString("address"),
-//                    resultSet.getString("phoneNumber"),
-//                    resultSet.getString("email")
-//            );
+        return ProductCategory.valueOf(resultSet.getString("productCategory"));
     }
 
-    public Client getClient(String firstName, String secondName) throws SQLException {
-        String sql = "select * from client where firstName= ?, secondName = ?";
+    public int getProductCategoryId(ProductCategory category) throws SQLException {
+        String sql = "select * from category where productCategory=?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(2, firstName);
-        preparedStatement.setString(3, secondName);
+        preparedStatement.setString(1, category.name());
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
-        return new Client(
-                firstName, secondName,
-                resultSet.getString("address"),
-                resultSet.getString("phoneNumber"),
-                resultSet.getString("email")
-        );
+        return resultSet.getInt("categoryid");
     }
 
-    public boolean addClient(Client client) throws SQLException {
-        String sql = "insert into client set firstname=?, secondname=?, address=?, phonenumber=?, email=?";
+    public boolean addProductCategory(ProductCategory productCategory) throws SQLException {
+        String sql = "insert into category set productCategory=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-        preparedStatement.setString(1, client.getFirstName());
-        preparedStatement.setString(2, client.getSecondName());
-        preparedStatement.setString(3, client.getAddress());
-        preparedStatement.setString(4, client.getPhoneNumber());
-        preparedStatement.setString(5, client.getEmail());
-
+        preparedStatement.setString(1, productCategory.name().toUpperCase());
         preparedStatement.executeUpdate();
-
-        return false;
+        return true;
     }
 
-    public boolean updateClient(Client client) throws SQLException {
-        String sql = "update client set firstname=?, secondname=?, address=?, phonenumber=? where clientid= ? ";
+    public boolean updateProductCategory(ProductCategory productCategory) throws SQLException {
+        String sql = "update category set productCategory=? where productCategory=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-        preparedStatement.setString(1, client.getFirstName());
-        preparedStatement.setString(2, client.getSecondName());
-        preparedStatement.setString(3, client.getAddress());
-        preparedStatement.setString(4, client.getPhoneNumber());
-        preparedStatement.setInt(5, client.getId());
+        preparedStatement.setString(1, productCategory.name());
+        preparedStatement.setString(2, productCategory.name());
         preparedStatement.executeUpdate();
-
-        return false;
+        return true;
     }
 
-    public boolean deleteClient(int id) throws SQLException {
-
-        String sql = "delete from client where clientid=?";
-
+    public boolean deleteProductCategory(ProductCategory productCategory) throws SQLException {
+        String sql = "delete from category where productid=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-
+        preparedStatement.setString(1, productCategory.name().toUpperCase());
         preparedStatement.executeUpdate();
-
-        return false;
+        return true;
     }
+
 }
-

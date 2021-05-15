@@ -1,8 +1,6 @@
 package testgroup.giftography.repository;
 
-import testgroup.giftography.instances.Client;
-import testgroup.giftography.instances.Order;
-import testgroup.giftography.instances.Product;
+import testgroup.giftography.instances.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,29 +24,30 @@ public class ProductRepository {
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
-        return null;
-//        return new Product(
-//                id,
-//                resultSet.getString("name"),
-//                resultSet.getString("description"),
-//                resultSet.getInt("price")
-//        );
+        return new Product(
+                id,
+                resultSet.getString("name"),
+                resultSet.getString("description"),
+                resultSet.getInt("price"),
+                ProductCategory.valueOf(resultSet.getString("productCategory"))
+        );
     }
 
     public Product getProduct(String name) throws SQLException {
+
         String sql = "select * from product where name = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, name);
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
-        return null;
-//        return new Product(
-//                name,
-//                resultSet.getString("description"),
-//                resultSet.getInt("price"),
-//                resultSet.getString("productCategory")
-//        );
+
+        return new Product(
+                name,
+                resultSet.getString("description"),
+                resultSet.getInt("price"),
+                ProductCategory.valueOf(resultSet.getString("productCategory"))
+        );
     }
 
     public boolean addProduct(Product product) throws SQLException {
@@ -57,12 +56,12 @@ public class ProductRepository {
 
         preparedStatement.setString(1, product.getName());
         preparedStatement.setString(2, product.getDescription());
-//        preparedStatement.setString(3, product.getPrice());
-//        preparedStatement.setString(4, product.getCategory());
+        preparedStatement.setInt(3, product.getPrice());
+        preparedStatement.setString(4, product.getCategory().name().toUpperCase());
 
         preparedStatement.executeUpdate();
 
-        return false;
+        return true;
     }
 
     public boolean updateProduct(Product product) throws SQLException {
@@ -71,11 +70,11 @@ public class ProductRepository {
 
         preparedStatement.setString(1, product.getName());
         preparedStatement.setString(2, product.getDescription());
-//        preparedStatement.setString(3, product.getPrice());
-//        preparedStatement.setString(4, product.getCategory());
+        preparedStatement.setInt(3, product.getPrice());
+        preparedStatement.setString(4, product.getCategory().name().toUpperCase());
         preparedStatement.executeUpdate();
 
-        return false;
+        return true;
     }
 
     public boolean deleteProduct(int id) throws SQLException {
@@ -87,6 +86,6 @@ public class ProductRepository {
 
         preparedStatement.executeUpdate();
 
-        return false;
+        return true;
     }
 }
