@@ -8,10 +8,13 @@ public class SQLDatabaseConnection {
 
     public SQLDatabaseConnection() {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(CONNECTION_URL);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             System.exit(1);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
