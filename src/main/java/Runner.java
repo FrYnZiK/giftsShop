@@ -15,10 +15,12 @@ public class Runner {
                 "Vitaliy",
                 "Any",
                 "addr",
-                103,
+                "103",
                 "any@mail.com");
         try {
-            clientRepository.updateClient(client);
+            boolean b = clientRepository.updateClient(client);
+            Client client1 = clientRepository.getClient(1);
+            System.out.println(client1);
         } catch (SQLException throwables) {
             System.err.println("ALERT!!!");
             throwables.printStackTrace();
