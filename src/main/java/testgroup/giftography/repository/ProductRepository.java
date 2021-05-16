@@ -42,6 +42,7 @@ public class ProductRepository {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
 
+
         return new Product(
                 name,
                 resultSet.getString("description"),
