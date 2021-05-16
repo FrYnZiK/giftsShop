@@ -3,7 +3,8 @@ package testgroup.giftography.jdbc;
 import java.sql.*;
 
 public class SQLDatabaseConnection {
-    private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306/gifts?" + "user=root&" + "password=71498236";
+    private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306/gifts?" +
+            "user=root&" + "password=root";
     private Connection connection;
 
     public SQLDatabaseConnection() {

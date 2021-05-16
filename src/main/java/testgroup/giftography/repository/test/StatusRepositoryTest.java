@@ -1,11 +1,13 @@
 package testgroup.giftography.repository.test;
 
+import testgroup.giftography.instances.Client;
 import testgroup.giftography.instances.OrderStatus;
 import testgroup.giftography.jdbc.SQLDatabaseConnection;
 import testgroup.giftography.repository.StatusRepository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class StatusRepositoryTest {
 
@@ -21,6 +23,12 @@ public class StatusRepositoryTest {
             throwables.printStackTrace();
         }
 
+        try {
+            OrderStatus orderStatus = statusRepository.getOrderStatus(1);
+            System.out.println(orderStatus);
+        } catch (SQLException throwables) {
+            System.err.println("ALERT!!!");
+            throwables.printStackTrace();
+        }
     }
-
 }
