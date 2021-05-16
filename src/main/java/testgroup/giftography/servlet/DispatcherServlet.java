@@ -36,6 +36,7 @@ public class DispatcherServlet extends HttpServlet {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         resp.setStatus(200);
         resp.getWriter().println("ok");
     }
